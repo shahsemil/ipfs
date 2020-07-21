@@ -1,20 +1,26 @@
- import React, { Component } from 'react';
+import React, { Component } from 'react';
 import logo from '../logo.png';
 import './App.css';
 import web3 from 'web3';
-import evidence from '../abis/evidence.json'
+import evidence from '../abis/evidence.json';
 // Added this new Library ipfs-api
 const ipfsAPI = require('ipfs-api');
-var memeHash=0;
 // New code according to ipfs-api
 const ipfs = ipfsAPI('ipfs.infura.io', '5001', {protocol: 'https'})
-
+var memeHash=0;
+var memeHashes=[];
+/******** you need to take a unique id which would be given to us whenever someone is redirected to website****** */
+var unique_id=0;//store that unique id here
+memeHashes[0]=unique_id;
+var pointer_memeHashes=1;//this pointer is for memeHashes array
 class App extends Component {
- async componentWillMount(){
+/* async componentWillMount(){
+   console.log("web3 loaded")
    await this.loadWeb3()
    await this.loadBloackchainData()
- } 
- async loadBloackchainData(){
+ }
+async loadBloackchainData(){
+   console.log("bloackchain loaded")
    const web3 =window.web3
    const accounts = await web3.eth.getAccounts()
    this.setState({account:accounts[0]})
@@ -22,25 +28,28 @@ class App extends Component {
    const networkData = evidence.networks[networkId]
    if(networkData){
       const abi=evidence.abi
+      console.log(abi)
       const address=networkData.address
+      console.log(address)
       const contract = web3.eth.Contract(abi,address)
+      console.log(contract)
     this.setState({contract : contract})
+    console.log("contratc updated")
     const memeHash = await contract.methods.get().call()
     this.setState({memeHash}) 
    }else{
      window.alert("smart contract not deployed in this network")
    }
- }
+ }*/
   constructor(props){
     super(props); 
     this.state ={
       account:'',
       buffer: null,
       contract:null,
-      memeHash:"QmPRDLVE4ghc8HPeSA9sNRWwtoEvkZS95AxbApzufrd8VF"
     };
   }
-  async loadWeb3(){
+  /*async loadWeb3(){
     if(window.ethereum){
       window.web3=new web3(window.ethereum)
       await window.ethereum.enable()
@@ -49,7 +58,7 @@ class App extends Component {
     }else{
       window.alert('please use wallet');
     }
-  }
+  }*/
   
   captureFile = (event)=>{
     event.preventDefault()
@@ -71,59 +80,26 @@ class App extends Component {
         }
         // This will print the hash
         memeHash=file[0].hash
-      this.state.contract.methods.set(memeHash).send({from: this.state.account }).then((r)=>{
-          this.setState({memeHash})
-        })
         console.log("click on submit")
       })
     }
-    this.setState({memeHash: memeHash})
   }
+  /*on submit code*/
   onSubmit=(event)=>{
     console.log("we are here")
     console.log(memeHash)
-    // To Get the file uploaded
-    // This is how you can view the file 
-    // https://ipfs.io/ipfs/QmPRDLVE4ghc8HPeSA9sNRWwtoEvkZS95AxbApzufrd8VF
-    // Above is the example of file i uploaded through IPFS capturefile function
-    //const validCID = 'QmPRDLVE4ghc8HPeSA9sNRWwtoEvkZS95AxbApzufrd8VF'
-
-    //ipfs.get(validCID, function (err, files) {
-       //  files.forEach((file) => {
-        //  console.log(file.path)
-          //console.log(file.content.toString('utf8'))
-        //})
-      //})
-      event.preventDefault()
-    // const getToken = async () => {
-    // for await (const file of ipfs.add(urlSource('https://ipfs.io/images/ipfs-logo.svg'))) {
-    // console.log(file) }
-    // };
-    // getToken()
-    // event.preventDefault()
-    // ipfs.add(urlSource('https://ipfs.io/images/ipfs-logo.svg'),(error,result)=>{
-      
-    //   console.log('ipfs result',result)
-    //   console.log("submitting the form...")
-    //   if(error){
-    //     console.error(error)
-    //     return
-    //   }
-    // })
-    
+    event.preventDefault()
+    //you need to call set function smart contract where you will give memeHash in string 
+    //and it will return index of that hash in Integer shore that in memehashes array
+  }
+  onDone=(event)=>{
+      //here you need to call done method and send the memeHashes array 
   }
   render() {
     return (
       <div>
         <nav className="navbar navbar-dark fixed-top bg-dark flex-md-nowrap p-0 shadow">
-          <a
-            className="navbar-brand col-sm-3 col-md-2 mr-0"
-            href="http://www.dappuniversity.com/bootcamp"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
             semil ipfs 
-          </a>
           <ul className="navbar-nav px-3">
             <li className="nav-item text-nowrop d-none d-sm-none d-sm-block"></li>
             <small className="text-white">{this.state.account}</small>
@@ -133,18 +109,19 @@ class App extends Component {
           <div className="row">
             <main role="main" className="col-lg-12 d-flex text-center">
               <div className="content mr-auto ml-auto">
-                <a
-                  href="http://www.dappuniversity.com/bootcamp"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  <img src={'https://ipfs.io/ipfs/'+this.state.memeHash} className="App-logo" />
+                <a>
+                  <img src={'http://ipfs.io/ipfs/Qme8KvWTgE6bvBGMzR6pGXYaWN1FpMRgaw66FrNyp2mMzB'} className="App-logo" />
                 </a>
                 <p>&nbsp;</p>
                 <h2>upload evidence</h2>
                 <form onSubmit={this.onSubmit}>
+                <div className="submit">
                   <input type='file' onChange={this.captureFile} />
                   <input type='submit' onChange={this.onSubmit}/>
+                  </div>
+                  <div className="button">
+                  <button type="submit" value="Submit">Done</button>
+                  </div>
                 </form>
               </div>
             </main>
