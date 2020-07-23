@@ -14,33 +14,7 @@ var unique_id=0;//store that unique id here
 memeHashes[0]=unique_id;
 var pointer_memeHashes=1;//this pointer is for memeHashes array
 class App extends Component {
-/* async componentWillMount(){
-   console.log("web3 loaded")
-   await this.loadWeb3()
-   await this.loadBloackchainData()
- }
-async loadBloackchainData(){
-   console.log("bloackchain loaded")
-   const web3 =window.web3
-   const accounts = await web3.eth.getAccounts()
-   this.setState({account:accounts[0]})
-   const networkId = await web3.eth.net.getId()
-   const networkData = evidence.networks[networkId]
-   if(networkData){
-      const abi=evidence.abi
-      console.log(abi)
-      const address=networkData.address
-      console.log(address)
-      const contract = web3.eth.Contract(abi,address)
-      console.log(contract)
-    this.setState({contract : contract})
-    console.log("contratc updated")
-    const memeHash = await contract.methods.get().call()
-    this.setState({memeHash}) 
-   }else{
-     window.alert("smart contract not deployed in this network")
-   }
- }*/
+
   constructor(props){
     super(props); 
     this.state ={
