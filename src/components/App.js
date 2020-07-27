@@ -66,6 +66,7 @@ class App extends Component {
         temp=file[0].hash.concat('/')
         memeHash=memeHash.concat(temp)
         console.log("click on submit")
+        alert("file submitted! please reselect other file if there are multiple evidence or press on done ")
       })
     }
   }
