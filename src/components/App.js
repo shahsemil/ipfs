@@ -14,6 +14,7 @@ var noFiles=0;
 var unique_id=0;//store that unique id here
 memeHashes[0]=unique_id;
 var pointer_memeHashes=1;//this pointer is for memeHashes array
+var uid = '';
 class App extends Component {
 
   constructor(props){
@@ -23,6 +24,12 @@ class App extends Component {
       buffer: null,
       contract:null,
     };
+  }
+  buttonEnterIdListner = (event) => {
+    event.preventDefault()
+    uid = document.getElementById('uname').value;
+    alert(uid)
+    // Alert.alert(uname);
   }
   /*async loadWeb3(){
     if(window.ethereum){
@@ -71,10 +78,13 @@ class App extends Component {
     //and it will return index of that hash in Integer shore that in memehashes array
   }
   onUsername=(event)=>{
-    var inputVal = document.getElementById("fname").value;
-    console.log(inputVal)
+    const form=document.forms['user'];
+        event.preventDefault()
+        const value =form.querySelector('input[type="text"]').value;
+        console.log(value)
   }
   onDone=(event)=>{
+    event.preventDefault();
       //here you need to call done method and send the memeHashes array
       console.log("final hash is")
       console.log(memeHash) 
@@ -105,10 +115,11 @@ class App extends Component {
                    </div>
                 </form>
                 <div className="button">
-                  <form onUsername={this.onUsername}>
-                    <label for="fname">First name:</label>
-                    <input type="text" id="fname" name="fname"/>
-                    <input type="submit" value="Enter your unique id" onChange={this.onUsername}/> 
+                  <form id="user" onUsername={this.onUsername}>
+                    {/* <input type="text" id="fname" name="fname"/> */}
+                    {/* <input type="submit" id="uname" value="Enter your unique id" onChange={this.onUsername}/>  */}
+                    <input placeholder="Enter your unique id" id="uname"/> 
+                    <button onClick={this.buttonEnterIdListner} >Submit uid</button>
                     <div className="submit">
                       <button type="submit" id="done" value="Submit" onChange={this.onDone}>Done</button>
                     </div>
