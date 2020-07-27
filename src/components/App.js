@@ -70,6 +70,10 @@ class App extends Component {
     //you need to call set function smart contract where you will give memeHash in string 
     //and it will return index of that hash in Integer shore that in memehashes array
   }
+  onUsername=(event)=>{
+    var inputVal = document.getElementById("fname").value;
+    console.log(inputVal)
+  }
   onDone=(event)=>{
       //here you need to call done method and send the memeHashes array
       console.log("final hash is")
@@ -95,14 +99,21 @@ class App extends Component {
                 <p>&nbsp;</p>
                 <h2>upload evidence</h2>
                 <form onSubmit={this.onSubmit}>
-                <div className="submit">
-                  <input type='file' onChange={this.captureFile} />
-                  <input type='submit' onChange={this.onSubmit}/>
-                  </div>
-                  <div className="button">
-                  <button type="submit" value="Submit">Done</button>
-                  </div>
+                  <div className="submit">
+                    <input type='file' onChange={this.captureFile} />
+                    <input type='submit' onChange={this.onSubmit}/>
+                   </div>
                 </form>
+                <div className="button">
+                  <form onUsername={this.onUsername}>
+                    <label for="fname">First name:</label>
+                    <input type="text" id="fname" name="fname"/>
+                    <input type="submit" value="Enter your unique id" onChange={this.onUsername}/> 
+                    <div className="submit">
+                      <button type="submit" id="done" value="Submit" onChange={this.onDone}>Done</button>
+                    </div>
+                  </form>
+                </div>
               </div>
             </main>
           </div>
