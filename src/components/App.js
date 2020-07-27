@@ -7,8 +7,9 @@ import evidence from '../abis/evidence.json';
 const ipfsAPI = require('ipfs-api');
 // New code according to ipfs-api
 const ipfs = ipfsAPI('ipfs.infura.io', '5001', {protocol: 'https'})
-var memeHash=0;
+var memeHash="";
 var memeHashes=[];
+var noFiles=0;
 /******** you need to take a unique id which would be given to us whenever someone is redirected to website****** */
 var unique_id=0;//store that unique id here
 memeHashes[0]=unique_id;
@@ -52,22 +53,27 @@ class App extends Component {
         if (err) {
           console.log(err);
         }
+        noFiles=noFiles+1;
         // This will print the hash
-        memeHash=file[0].hash
+        var temp;
+        temp=file[0].hash.concat('/')
+        memeHash=memeHash.concat(temp)
         console.log("click on submit")
       })
     }
   }
   /*on submit code*/
   onSubmit=(event)=>{
-    console.log("we are here")
+    console.log("click on done when all hashes are uploaded")
     console.log(memeHash)
     event.preventDefault()
     //you need to call set function smart contract where you will give memeHash in string 
     //and it will return index of that hash in Integer shore that in memehashes array
   }
   onDone=(event)=>{
-      //here you need to call done method and send the memeHashes array 
+      //here you need to call done method and send the memeHashes array
+      console.log("final hash is")
+      console.log(memeHash) 
   }
   render() {
     return (
